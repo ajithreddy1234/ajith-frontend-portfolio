@@ -1,0 +1,8 @@
+[
+  {"id":"arc","name":"Arc Signet","category":"Rings","material":"Gold vermeil","price":4200,"image":"arc.webp","variants":["Size 5","Size 6","Size 7","Size 8"],"description":"A softly sculpted signet with a low-profile oval face and rounded edges.","finish":"Mirror polish"},
+  {"id":"form","name":"Form Huggies","category":"Earrings","material":"Gold vermeil","price":3600,"image":"form.webp","variants":["One size"],"description":"Small polished hoops with an asymmetric outline and hinged clasp.","finish":"High polish"},
+  {"id":"tide","name":"Tide Pendant","category":"Necklaces","material":"Gold vermeil and freshwater pearl","price":5100,"image":"tide.webp","variants":["40 cm","45 cm"],"description":"An irregular freshwater pearl suspended on a fine chain.","finish":"Pearl and smooth gold"},
+  {"id":"duo","name":"Duo Band","category":"Rings","material":"Gold vermeil","price":3400,"image":"duo.webp","variants":["Size 5","Size 6","Size 7","Size 8"],"description":"Two rounded bands joined at the base, leaving an open line around the finger.","finish":"High polish"},
+  {"id":"drop","name":"Cove Drops","category":"Earrings","material":"Gold vermeil and freshwater pearl","price":4800,"image":"drop.webp","variants":["One size"],"description":"A pair of freshwater pearl drops on fine gold hooks with a short, easy profile.","finish":"Pearl and smooth gold"},
+  {"id":"sol","name":"Sol Medallion","category":"Necklaces","material":"Gold vermeil","price":5600,"image":"sol.webp","variants":["40 cm","45 cm","50 cm"],"description":"A ridged sunburst pendant on a slim chain with three length options.","finish":"Textured gold"}
+]

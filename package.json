@@ -1,0 +1,28 @@
+{
+  "name": "ajith-frontend-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "5.3.0",
+    "@google/genai": "^3.4.0",
+    "@netlify/database": "^2.0.3",
+    "@reduxjs/toolkit": "2.12.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "react-redux": "9.3.0"
+  },
+  "devDependencies": {
+    "@netlify/database-dev": "^1.0.2",
+    "vite": "8.3.5"
+  }
+}

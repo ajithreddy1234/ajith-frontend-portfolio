@@ -1,0 +1,25 @@
+.trainer-header { border-bottom: 1px solid var(--line); }
+.trainer-header-inner { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 68px; }
+.trainer-brand { font-weight: 800; text-decoration: none; }
+.trainer-nav-link { font-size: .9rem; font-weight: 700; text-underline-offset: .25em; }
+.trainer-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .85fr); gap: 2rem; align-items: center; padding-block: clamp(2.6rem, 7vw, 6rem); }
+.trainer-hero .label { color: var(--red); }
+.trainer-hero h1 { margin-block: .7rem; font: 400 clamp(3.2rem, 7vw, 6.1rem)/.98 var(--serif); letter-spacing: -.072em; }
+.trainer-lead { max-width: 37ch; color: var(--muted); font-size: clamp(1rem, 2vw, 1.3rem); line-height: 1.5; }
+.trainer-hero figure { margin: 0; }
+.trainer-hero .trainer-visual { height: clamp(185px, 27vw, 300px); border: 1px solid var(--line); border-radius: 9px; }
+.trainer-hero .trainer-panel { width: min(89%, 330px); max-width: none; }
+.trainer-hero .training-plot { height: clamp(72px, 10vw, 140px); }
+.trainer-hero figcaption { color: var(--muted); margin-top: .55rem; font-size: .82rem; }
+.trainer-workflow { border-top: 1px solid var(--line); padding-block: clamp(1.8rem, 4vw, 3.5rem); }
+.trainer-workflow p { color: var(--muted); max-width: 60ch; line-height: 1.55; margin-top: .45rem; }
+.trainer-workflow ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; padding: 0; margin: 1.25rem 0 0; list-style: none; }
+.trainer-workflow li { border-top: 2px solid #bd97b2; padding-block: .8rem; }
+.trainer-workflow h3 { font-size: 1.05rem; }
+.trainer-footer { border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; padding-block: 1rem 4.2rem; }
+
+@media (max-width: 720px) {
+  .trainer-hero, .trainer-workflow ol { grid-template-columns: 1fr; }
+  .trainer-hero { gap: 1.3rem; }
+  .trainer-workflow ol { gap: .45rem; }
+}
