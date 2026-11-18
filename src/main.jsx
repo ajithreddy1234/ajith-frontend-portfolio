@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import '@fontsource-variable/dm-sans';
 import './styles.css';
-import { deployedApps, experience, profile, projects } from './profile.js';
+import { deployedApps, profile, projects } from './profile.js';
 import { repositoryProjects } from './project-directory.js';
 import { fallbackAnswer, prompts } from './evidence.js';
 import { chatActions, portfolioStore } from './store.js';
@@ -21,14 +21,93 @@ function LiveAppPreview({ id }) {
 }
 
 function LiveShowcase() {
+  const [active, setActive] = useState(0);
+  const deck = useRef(null);
+  const cards = useRef([]);
+  const current = useRef(0);
+  const wheelTime = useRef(0);
+  const gesture = useRef(null);
+  const previewTap = useRef(false);
+  const swiped = useRef(false);
+
+  function select(index) {
+    const next = Math.max(0, Math.min(deployedApps.length - 1, index));
+    current.current = next;
+    setActive(next);
+  }
+
+  useEffect(() => {
+    const element = deck.current;
+    function browse(event) {
+      if (event.ctrlKey) return;
+      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      if (Math.abs(delta) < 12) return;
+      const next = Math.max(0, Math.min(deployedApps.length - 1, current.current + Math.sign(delta)));
+      if (next === current.current) return;
+      event.preventDefault();
+      if (Date.now() - wheelTime.current < 420) return;
+      wheelTime.current = Date.now();
+      current.current = next;
+      setActive(next);
+    }
+    element.addEventListener('wheel', browse, { passive: false });
+    return () => element.removeEventListener('wheel', browse);
+  }, []);
+
   return <section className="live-showcase" id="work" aria-labelledby="live-title">
-    <div className="showcase-heading"><div><p className="label">Live applications</p><h2 id="live-title">Choose something to try.</h2></div><span className="showcase-count">04</span></div>
-    <div className="live-app-grid">{deployedApps.map((app) => <a className={'live-app-card app-' + app.id} href={app.href} key={app.id} aria-label={'Open ' + app.title + ' · ' + app.access}>
-      <div className="live-app-top"><img src={app.icon} alt="" width="27" height="27" /><span>{app.access}</span><span className="card-open-arrow"><Arrow /></span></div>
-      <LiveAppPreview id={app.id} />
-      <div className="live-app-copy"><p className="live-app-category">{app.category}</p><h3>{app.title}</h3><p>{app.label}</p></div>
-    </a>)}</div>
-    <p className="showcase-note">Open any card to try the app. Render apps may take a moment to wake.</p>
+    <div className="showcase-heading"><div><p className="label">Live applications</p><h2 id="live-title">Explore the project deck.</h2></div></div>
+    <div className="project-deck" ref={deck} aria-describedby="deck-hint" onKeyDown={(event) => {
+      const direction = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+      if (!direction) return;
+      event.preventDefault();
+      const next = Math.max(0, Math.min(deployedApps.length - 1, current.current + direction));
+      select(next);
+      cards.current[next]?.focus();
+    }}>
+      {deployedApps.map((app, index) => <a className={'deck-card app-' + app.id} href={app.href} key={app.id}
+        ref={(element) => { cards.current[index] = element; }}
+        data-active={active === index} data-before={index < active}
+        style={{ '--offset': index - active, '--distance': Math.abs(index - active), zIndex: active === index ? 20 : 10 - Math.abs(index - active) }}
+        aria-label={'Open ' + app.title + ' · ' + app.access}
+        onPointerEnter={(event) => { if (event.pointerType === 'mouse' && Date.now() - wheelTime.current > 500) select(index); }}
+        onFocus={() => select(index)}
+        onPointerDown={(event) => {
+          swiped.current = false;
+          previewTap.current = event.pointerType !== 'mouse' && index !== current.current;
+          gesture.current = { x: event.clientX, y: event.clientY, type: event.pointerType };
+        }}
+        onPointerUp={(event) => {
+          const start = gesture.current;
+          gesture.current = null;
+          if (!start || start.type === 'mouse') return;
+          const dx = event.clientX - start.x;
+          const dy = event.clientY - start.y;
+          if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+            previewTap.current = true;
+            swiped.current = true;
+            select(current.current + (dx < 0 ? 1 : -1));
+          }
+        }}
+        onPointerCancel={() => { gesture.current = null; previewTap.current = false; }}
+        onClick={(event) => {
+          if (previewTap.current && event.detail !== 0 && !event.metaKey && !event.ctrlKey) {
+            event.preventDefault();
+            previewTap.current = false;
+            if (!swiped.current) select(index);
+          }
+          previewTap.current = false;
+          swiped.current = false;
+        }}>
+        <span className="deck-spine" aria-hidden="true"><img src={app.icon} alt="" width="26" height="26" /><span>{app.title}</span><small>{String(index + 1).padStart(2, '0')}</small></span>
+        <div className="deck-card-body" aria-hidden={active !== index}>
+          <div className="live-app-top"><img src={app.icon} alt="" width="30" height="30" /><span>{app.access}</span><span className="card-open-arrow"><Arrow /></span></div>
+          <LiveAppPreview id={app.id} />
+          <div className="live-app-copy"><p className="live-app-category">{app.category}</p><h3>{app.title}</h3><p>{app.label}</p><span className="deck-open-label">Open project <Arrow /></span></div>
+        </div>
+      </a>)}
+    </div>
+    <div className="deck-controls"><button type="button" aria-label="Previous project" disabled={active === 0} onClick={() => select(active - 1)}>←</button><p role="status"><span>{String(active + 1).padStart(2, '0')} / {String(deployedApps.length).padStart(2, '0')}</span>{deployedApps[active].title}</p><button type="button" aria-label="Next project" disabled={active === deployedApps.length - 1} onClick={() => select(active + 1)}>→</button></div>
+    <p className="showcase-note" id="deck-hint">Hover or scroll over the deck to peek. Click a card to open its project. On touch, tap to preview, then tap again to open.</p>
   </section>;
 }
 
@@ -39,18 +118,9 @@ function OpeningPage({ openAssistant }) {
         <div className="identity-heading"><span className="identity-monogram" aria-hidden="true">AR<span>↗</span></span><p className="label hero-role">Frontend developer<br /><span>IIT Hyderabad</span></p></div>
         <div className="identity-copy"><h1 id="hero-title">Ajith Reddy<span>.</span></h1><p className="hero-intro">I build interfaces for shopping, reporting, and technical workflows.</p><p className="hero-deck">Explore my live applications, browse the project archive, or ask my profile assistant about my work.</p></div>
         <div className="hero-links"><a className="button" href="./projects.html">Explore my projects <Arrow direction="right" /></a><button className="text-link as-link" type="button" onClick={openAssistant}>Ask my profile <Arrow /></button></div>
-        <div className="identity-footer"><span>React · JavaScript · APIs</span><a href="#about">Get to know me <Arrow direction="right" /></a></div>
+        <div className="identity-footer"><span>React · JavaScript · APIs</span><a href={profile.resume}>View résumé <Arrow direction="right" /></a></div>
       </div>
       <LiveShowcase />
-    </section>
-    <section className="section profile-section" id="about" aria-labelledby="about-title">
-      <div className="profile-intro">
-        <p className="label">A little about me</p>
-        <h2 id="about-title">Ajith Reddy<br />Pochimireddy</h2>
-        <p>I’m an IIT Hyderabad undergraduate drawn to the interface between complex systems and the people using them. I’ve worked on tools for reporting and computer vision, and helped keep institute web content up to date.</p>
-        <p className="education"><strong>Indian Institute of Technology Hyderabad</strong><br />B.Tech, Civil Engineering · Expected May 2027</p>
-      </div>
-      <div className="experience" id="experience"><h3>Experience</h3>{experience.map((item) => <article key={item.role}><span className="label">{item.company} <span>·</span> {item.date}</span><h4>{item.role}</h4><p>{item.description}</p></article>)}</div>
     </section>
   </>;
 }
@@ -281,7 +351,7 @@ export function Portfolio({ projectsPage = /\/projects(?:\.html)?$/.test(window.
         <div className="wrap nav-inner">
           <a href="./" className="brand" aria-label="Ajith Reddy, home"><img src="./profile-mark.svg" alt="" width="35" height="35" /> Ajith Reddy</a>
           <nav aria-label="Main navigation">
-            <a href="./" aria-current={!projectsPage ? 'page' : undefined}>Home</a><a href="./projects.html" aria-current={projectsPage ? 'page' : undefined}>Projects</a><a href={projectsPage ? './#about' : '#about'}>About</a><button className="nav-assistant" type="button" onClick={openAssistant}>Ask my profile</button>
+            <a href="./" aria-current={!projectsPage ? 'page' : undefined}>Home</a><a href="./projects.html" aria-current={projectsPage ? 'page' : undefined}>Projects</a><button className="nav-assistant" type="button" onClick={openAssistant}>Ask my profile</button>
           </nav>
           <a className="nav-resume" href={profile.resume}>Résumé <Arrow /></a>
         </div>

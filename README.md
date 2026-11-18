@@ -6,7 +6,7 @@ A deployable React portfolio with a project directory, résumé, source-grounded
 
 ## Portfolio navigation
 
-The opening page pairs a coloured personal information card with a four-card live application showcase. Cards preview on hover or keyboard focus and open their application on click or tap. Detailed case studies and the searchable 26-repository directory live on `projects.html`, reached through the Projects navigation or the main call to action. The profile assistant is available on both pages.
+The opening page pairs the personal information card with a stacked deck of four live project cards. Exposed card edges remain visible; hover, wheel scrolling, arrow keys, and the previous/next buttons fan a card forward. Clicking the revealed card opens the project. On touch, tap an edge to preview, then tap the active card to open; horizontal swipes also browse the deck. The About section and About navigation are removed. Detailed case studies and the searchable 26-repository directory live on `projects.html`, reached through the Projects navigation or the main call to action. The profile assistant is available on both pages.
 
 ## Atelier Edit
 
