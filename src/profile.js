@@ -86,8 +86,8 @@ export const experience = [
 ];
 
 export const deployedApps = [
-  { title: 'Atelier Edit', label: 'Shop, compare & place a demo order', href: './atelier.html', icon: './atelier-mark.svg', access: 'Open demo' },
-  { title: 'FlowForge', label: 'Original Job Scheduler & pipeline editor', href: 'https://ajith-flowforge-scheduler.onrender.com/', icon: './flowforge-mark.svg', access: 'Open sandbox' },
-  { title: 'Invoice Review', label: 'Zamp assignment · invoice decisions', href: 'https://asa-invoice-review.onrender.com/', icon: './invoice-mark.svg', access: 'Workspace login' },
-  { title: 'Kuku Promo Finder', label: 'Source-timed screenplay promo discovery', href: 'https://kuku-promo-finder.onrender.com/', icon: './promo-mark.svg', access: 'Open application' },
+  { id: 'atelier', title: 'Atelier Edit', category: 'Commerce', label: 'Discover, compare & shop the collection', href: './atelier.html', icon: './atelier-mark.svg', access: 'Demo checkout' },
+  { id: 'pipeline', title: 'FlowForge', category: 'Data workflows', label: 'Build a pipeline. Run a real job.', href: 'https://ajith-flowforge-scheduler.onrender.com/', icon: './flowforge-mark.svg', access: 'Public sandbox' },
+  { id: 'invoice', title: 'Invoice Review', category: 'Zamp assignment', label: 'Evidence-led invoice decisions', href: 'https://asa-invoice-review.onrender.com/', icon: './invoice-mark.svg', access: 'Workspace login' },
+  { id: 'promo', title: 'Kuku Promo Finder', category: 'Content tools', label: 'Screenplays to promo cut sheets', href: 'https://kuku-promo-finder.onrender.com/', icon: './promo-mark.svg', access: 'Open application' },
 ];

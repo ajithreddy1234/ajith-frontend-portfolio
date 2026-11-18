@@ -13,6 +13,56 @@ function Arrow({ direction = 'diagonal' }) {
   return <span aria-hidden="true">{direction === 'right' ? '→' : '↗'}</span>;
 }
 
+function LiveAppPreview({ id }) {
+  if (id === 'atelier') return <div className="live-app-preview preview-atelier" aria-hidden="true"><img src="./atelier-hero.webp" alt="" fetchPriority="high" /></div>;
+  if (id === 'pipeline') return <div className="live-app-preview preview-pipeline" aria-hidden="true"><div className="preview-flow"><span><i>01</i>SQL<small>Extract</small></span><b>→</b><span><i>02</i>Pandas<small>Transform</small></span><b>→</b><span><i>03</i>CSV<small>Deliver</small></span></div></div>;
+  if (id === 'invoice') return <div className="live-app-preview preview-invoice" aria-hidden="true"><div><span>Source evidence</span><b>Page + quote</b></div><div><span>Procurement</span><b>Rule checks</b></div><div><span>Review history</span><b>Audit trail ↗</b></div></div>;
+  return <div className="live-app-preview preview-promo" aria-hidden="true"><div className="script-lines"><span>THE SCRIPT</span><i /><i /><b>Hook</b><i /><i /><b>Cliffhanger</b></div><div className="cut-sheet"><span>THE CUT SHEET</span><b>Source</b><b>Review</b><b>Export ↗</b></div></div>;
+}
+
+function LiveShowcase() {
+  return <section className="live-showcase" id="work" aria-labelledby="live-title">
+    <div className="showcase-heading"><div><p className="label">Live applications</p><h2 id="live-title">Choose something to try.</h2></div><span className="showcase-count">04</span></div>
+    <div className="live-app-grid">{deployedApps.map((app) => <a className={'live-app-card app-' + app.id} href={app.href} key={app.id} aria-label={'Open ' + app.title + ' · ' + app.access}>
+      <div className="live-app-top"><img src={app.icon} alt="" width="27" height="27" /><span>{app.access}</span><span className="card-open-arrow"><Arrow /></span></div>
+      <LiveAppPreview id={app.id} />
+      <div className="live-app-copy"><p className="live-app-category">{app.category}</p><h3>{app.title}</h3><p>{app.label}</p></div>
+    </a>)}</div>
+    <p className="showcase-note">Open any card to try the app. Render apps may take a moment to wake.</p>
+  </section>;
+}
+
+function OpeningPage({ openAssistant }) {
+  return <>
+    <section className="hero" id="top" aria-labelledby="hero-title">
+      <div className="identity-card">
+        <div className="identity-heading"><span className="identity-monogram" aria-hidden="true">AR<span>↗</span></span><p className="label hero-role">Frontend developer<br /><span>IIT Hyderabad</span></p></div>
+        <div className="identity-copy"><h1 id="hero-title">Ajith Reddy<span>.</span></h1><p className="hero-intro">I build interfaces for shopping, reporting, and technical workflows.</p><p className="hero-deck">Explore my live applications, browse the project archive, or ask my profile assistant about my work.</p></div>
+        <div className="hero-links"><a className="button" href="./projects.html">Explore my projects <Arrow direction="right" /></a><button className="text-link as-link" type="button" onClick={openAssistant}>Ask my profile <Arrow /></button></div>
+        <div className="identity-footer"><span>React · JavaScript · APIs</span><a href="#about">Get to know me <Arrow direction="right" /></a></div>
+      </div>
+      <LiveShowcase />
+    </section>
+    <section className="section profile-section" id="about" aria-labelledby="about-title">
+      <div className="profile-intro">
+        <p className="label">A little about me</p>
+        <h2 id="about-title">Ajith Reddy<br />Pochimireddy</h2>
+        <p>I’m an IIT Hyderabad undergraduate drawn to the interface between complex systems and the people using them. I’ve worked on tools for reporting and computer vision, and helped keep institute web content up to date.</p>
+        <p className="education"><strong>Indian Institute of Technology Hyderabad</strong><br />B.Tech, Civil Engineering · Expected May 2027</p>
+      </div>
+      <div className="experience" id="experience"><h3>Experience</h3>{experience.map((item) => <article key={item.role}><span className="label">{item.company} <span>·</span> {item.date}</span><h4>{item.role}</h4><p>{item.description}</p></article>)}</div>
+    </section>
+  </>;
+}
+
+function ProjectsPage() {
+  return <>
+    <header className="archive-heading"><a className="archive-back" href="./">← Back to the opening page</a><p className="label">Selected work & source</p><h1>Projects, in detail<span>.</span></h1><p>Live applications, engineering case studies, and the complete project archive.</p></header>
+    <section className="section" id="selected-work" aria-labelledby="work-title"><div className="section-heading"><h2 id="work-title">Selected work</h2><p>The decisions behind the interfaces.</p></div><div className="project-grid">{projects.map((project, index) => <Project key={project.id} index={index} project={project} />)}</div></section>
+    <ProjectDirectory />
+  </>;
+}
+
 function ProjectVisual({ id }) {
   if (id === 'invoice') return (
     <div className="project-visual invoice-visual" aria-hidden="true">
@@ -111,7 +161,7 @@ function ProjectDirectory() {
         </article>)}
         {!visible.length && <div className="directory-empty"><p>No projects match these filters.</p><button type="button" className="subtle-button" onClick={() => { setQuery(''); setCategory('All'); }}>Clear filters</button></div>}
       </div>
-      <p className="directory-note">Live applications are listed separately above. Research, notebooks, architecture studies, and repository archives are identified here without a deployment claim.</p>
+      <p className="directory-note"><a href="./#work">Try the verified live applications on the opening page.</a> Research, notebooks, architecture studies, and repository archives are identified here without a deployment claim.</p>
     </section>
   );
 }
@@ -208,7 +258,7 @@ function Assistant({ panel, onClose }) {
   );
 }
 
-function Portfolio() {
+export function Portfolio({ projectsPage = /\/projects(?:\.html)?$/.test(window.location.pathname) } = {}) {
   const panel = useRef(null);
   const trigger = useRef(null);
   const [assistantOpen, setAssistantOpen] = useState(false);
@@ -229,66 +279,15 @@ function Portfolio() {
       <a className="skip" href="#main">Skip to content</a>
       <header className="site-header">
         <div className="wrap nav-inner">
-          <a href="#top" className="brand" aria-label="Ajith Reddy, home"><img src="./profile-mark.svg" alt="" width="35" height="35" /> Ajith Reddy</a>
+          <a href="./" className="brand" aria-label="Ajith Reddy, home"><img src="./profile-mark.svg" alt="" width="35" height="35" /> Ajith Reddy</a>
           <nav aria-label="Main navigation">
-            <a href="#work">Work</a><a href="#projects">Projects</a><a href="#about">About</a><button className="nav-assistant" type="button" onClick={openAssistant}>Ask my profile</button>
+            <a href="./" aria-current={!projectsPage ? 'page' : undefined}>Home</a><a href="./projects.html" aria-current={projectsPage ? 'page' : undefined}>Projects</a><a href={projectsPage ? './#about' : '#about'}>About</a><button className="nav-assistant" type="button" onClick={openAssistant}>Ask my profile</button>
           </nav>
           <a className="nav-resume" href={profile.resume}>Résumé <Arrow /></a>
         </div>
       </header>
       <main id="main" className="wrap">
-        <section className="hero" id="top" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <p className="label hero-role">Frontend developer <span>·</span> IIT Hyderabad</p>
-            <h1 id="hero-title">Ajith Reddy<span>.</span></h1>
-            <p className="hero-intro">I build interfaces for shopping, reporting, and technical workflows.</p>
-            <p className="hero-deck">React on the surface. Real APIs and thoughtful interaction underneath. Explore the work, run a pipeline, or ask my profile assistant.</p>
-            <div className="hero-links">
-              <a className="button" href="#work">Explore my work <Arrow direction="right" /></a>
-              <button className="text-link as-link" type="button" onClick={openAssistant}>Ask my profile <Arrow /></button>
-            </div>
-          </div>
-          <a className="feature-stage" href="./atelier.html" aria-label="Open Atelier Edit storefront demo">
-            <div className="stage-heading"><span>Live project</span><Arrow /></div>
-            <div className="stage-image">
-              <img src="./atelier-hero.webp" alt="Sculptural gold jewellery arranged on limestone" fetchPriority="high" />
-              <div className="stage-caption">
-                <span>Full-stack storefront</span>
-                <strong>Atelier Edit</strong>
-              </div>
-            </div>
-            <div className="stage-footer"><span>React / PostgreSQL</span><span>Shop the demo <Arrow direction="right" /></span></div>
-          </a>
-        </section>
-        <section className="live-projects" id="live" aria-labelledby="live-title">
-          <div className="live-title"><h2 id="live-title">Live applications</h2><p>Verified deployments · Render apps may take a moment to wake</p></div>
-          <div className="live-band">{deployedApps.map((app) => <a href={app.href} key={app.title}><img src={app.icon} alt="" width="34" height="34" /><div><strong>{app.title}</strong><small>{app.label}</small><span className="live-access">{app.access}</span></div><Arrow /></a>)}</div>
-        </section>
-        <section className="section" id="work" aria-labelledby="work-title">
-          <div className="section-heading"><h2 id="work-title">Selected work</h2><p>Interfaces that make complex work easier.</p></div>
-          <div className="project-grid">
-            {projects.map((project, index) => <Project key={project.id} index={index} project={project} />)}
-          </div>
-        </section>
-        <ProjectDirectory />
-        <section className="section profile-section" id="about" aria-labelledby="about-title">
-          <div className="profile-intro">
-            <p className="label">About</p>
-            <h2 id="about-title">Ajith Reddy<br />Pochimireddy</h2>
-            <p>I’m an IIT Hyderabad undergraduate drawn to the interface between complex systems and the people using them. I’ve worked on tools for reporting and computer vision, and helped keep institute web content up to date.</p>
-            <p className="education"><strong>Indian Institute of Technology Hyderabad</strong><br />B.Tech, Civil Engineering · Expected May 2027</p>
-          </div>
-          <div className="experience" id="experience">
-            <h3>Experience</h3>
-            {experience.map((item) => (
-              <article key={item.role}>
-                <span className="label">{item.company} <span>·</span> {item.date}</span>
-                <h4>{item.role}</h4>
-                <p>{item.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+        {projectsPage ? <ProjectsPage /> : <OpeningPage openAssistant={openAssistant} />}
         <footer className="footer" id="contact">
           <div><strong>Ajith Reddy Pochimireddy</strong><br /><a href={'mailto:' + profile.email}>{profile.email}</a></div>
           <nav aria-label="Contact and profiles">
@@ -308,4 +307,6 @@ function Portfolio() {
   );
 }
 
-createRoot(document.getElementById('root')).render(<Provider store={portfolioStore()}><Portfolio /></Provider>);
+if (typeof document !== 'undefined') {
+  createRoot(document.getElementById('root')).render(<Provider store={portfolioStore()}><Portfolio /></Provider>);
+}

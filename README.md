@@ -4,6 +4,10 @@
 
 A deployable React portfolio with a project directory, résumé, source-grounded Gemini assistant, and a standalone full-stack jewellery storefront. Every public repository is listed with context; only verified live applications appear in the deployment section. Country Delight's Model Trainer is presented as an internal-tool case study.
 
+## Portfolio navigation
+
+The opening page pairs a coloured personal information card with a four-card live application showcase. Cards preview on hover or keyboard focus and open their application on click or tap. Detailed case studies and the searchable 26-repository directory live on `projects.html`, reached through the Projects navigation or the main call to action. The profile assistant is available on both pages.
+
 ## Atelier Edit
 
 React and Redux Toolkit handle combined search, filters, sorting, product comparison, saved pieces, and a variant-aware bag. Netlify Functions serve the catalogue and checkout API. PostgreSQL stores inventory and orders.
