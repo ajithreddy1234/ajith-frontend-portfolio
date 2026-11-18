@@ -49,4 +49,4 @@ The deployed assistant uses Netlify AI Gateway. Local development may provide `G
 
 `npm test` verifies source restrictions, generated greeting behaviour, variant-aware basket state, trusted checkout prices, receipt isolation, replay protection, and stock rejection against Netlify's local database runtime. The local database does not emulate concurrent transactions; live PostgreSQL uses conditional stock updates inside a transaction.
 
-The resume PDF is distributed separately with the deliverable and on the live portfolio. It is omitted from the public source repository pending explicit approval. For a fresh deployment, place the supplied PDF at `public/Ajith_Reddy_Frontend_Resume.pdf`.
+The résumé PDF is intentionally excluded from public GitHub and protected by `.gitignore`. It remains available on the live portfolio and in the separately supplied downloads. For a fresh deployment, place the supplied PDF at `public/Ajith_Reddy_Frontend_Resume.pdf` locally before building. Do not commit that file.

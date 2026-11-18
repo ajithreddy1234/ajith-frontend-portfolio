@@ -4,3 +4,6 @@ dist/
 .env
 .env.*
 !.env.example
+
+# Keep the personal résumé available locally for deploys, outside public GitHub.
+/public/Ajith_Reddy_Frontend_Resume.pdf
