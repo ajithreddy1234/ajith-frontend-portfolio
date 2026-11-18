@@ -15,6 +15,7 @@ function Arrow({ direction = 'diagonal' }) {
 
 function LiveAppPreview({ id }) {
   if (id === 'atelier') return <div className="live-app-preview preview-atelier" aria-hidden="true"><img src="./atelier-hero.webp" alt="" fetchPriority="high" /></div>;
+  if (id === 'shopsphere') return <div className="live-app-preview preview-shopsphere" aria-hidden="true"><div><img src="./shopsphere-mark.svg" alt="" width="28" height="28" /><strong>Product workspace</strong></div><div className="preview-product-row"><span>Headphones<small>₹4,900</small></span><span>Desk light<small>₹1,800</small></span></div><p>Create · Edit · Save</p></div>;
   if (id === 'pipeline') return <div className="live-app-preview preview-pipeline" aria-hidden="true"><div className="preview-flow"><span><i>01</i>SQL<small>Extract</small></span><b>→</b><span><i>02</i>Pandas<small>Transform</small></span><b>→</b><span><i>03</i>CSV<small>Deliver</small></span></div></div>;
   if (id === 'invoice') return <div className="live-app-preview preview-invoice" aria-hidden="true"><div><span>Source evidence</span><b>Page + quote</b></div><div><span>Procurement</span><b>Rule checks</b></div><div><span>Review history</span><b>Audit trail ↗</b></div></div>;
   return <div className="live-app-preview preview-promo" aria-hidden="true"><div className="script-lines"><span>THE SCRIPT</span><i /><i /><b>Hook</b><i /><i /><b>Cliffhanger</b></div><div className="cut-sheet"><span>THE CUT SHEET</span><b>Source</b><b>Review</b><b>Export ↗</b></div></div>;
@@ -134,6 +135,7 @@ function ProjectsPage() {
 }
 
 function ProjectVisual({ id }) {
+  if (id === 'shopsphere') return <div className="project-visual shopsphere-visual"><LiveAppPreview id="shopsphere" /></div>;
   if (id === 'invoice') return (
     <div className="project-visual invoice-visual" aria-hidden="true">
       <div className="invoice-preview">

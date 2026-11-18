@@ -3,7 +3,7 @@ export const repositoryProjects = [
   {
     "name": "ajith-frontend-portfolio",
     "title": "Portfolio & Atelier Edit",
-    "description": "React portfolio, Gemini profile assistant, and a storefront with Postgres inventory, checkout, and order history.",
+    "description": "React portfolio and Gemini assistant, plus the independently deployable Atelier Edit application with accounts, carts, inventory and orders.",
     "category": "Applications",
     "language": "JavaScript",
     "source": "https://github.com/ajithreddy1234/ajith-frontend-portfolio"
@@ -171,7 +171,7 @@ export const repositoryProjects = [
   {
     "name": "ShopSphere",
     "title": "ShopSphere",
-    "description": "React and Node.js product store with product management and theme switching.",
+    "description": "Deployed product workspace with React, Zustand, PostgreSQL CRUD, isolated browser catalogues, and theme switching.",
     "category": "Applications",
     "language": "JavaScript",
     "source": "https://github.com/ajithreddy1234/ShopSphere"

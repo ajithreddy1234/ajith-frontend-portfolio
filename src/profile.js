@@ -11,16 +11,31 @@ export const projects = [
     id: 'atelier',
     title: 'Atelier Edit',
     type: 'Full-stack storefront · Live',
-    description: 'A jewellery storefront from discovery to checkout, with live inventory, server-priced orders, receipts, and browser-specific order history.',
+    description: 'A jewellery storefront from discovery to checkout, with accounts, persistent bags and favourites, live inventory, server-priced orders, and cancellation with stock restoration.',
     stack: ['React', 'Redux Toolkit', 'PostgreSQL', 'Netlify Functions'],
     brief: 'Give shoppers a clear path from browsing a small collection to choosing a variant and reviewing their bag.',
     decisions: [
       'Search, categories, material, and price filters combine with sorting. The catalogue has explicit loading, empty, and retry states.',
-      'Redux Toolkit manages shared bag and wishlist state. Bag lines use a product and variant pair, so different ring sizes can coexist.',
-      'Server functions price every order from the trusted catalogue. A Postgres transaction reserves stock and stores the receipt; retry references prevent duplicate orders.',
+      'Redux Toolkit manages the bag and wishlist; versioned PostgreSQL carts sync them to a guest session or account. Signing in merges guest items.',
+      'Server functions price every order from the trusted catalogue. A Postgres transaction reserves stock and stores the receipt; retry references prevent duplicate orders. Cancellation restores stock once and records an event.',
     ],
-    demo: './atelier.html',
-    source: 'https://github.com/ajithreddy1234/ajith-frontend-portfolio',
+    demo: 'https://ajith-atelier-edit.netlify.app/',
+    source: 'https://github.com/ajithreddy1234/ajith-frontend-portfolio/tree/main/apps/atelier-edit',
+  },
+  {
+    id: 'shopsphere',
+    title: 'ShopSphere',
+    type: 'Product workspace · Full-stack live app',
+    description: 'A product management workspace with persistent create, edit and delete actions, theme switching, and a private demo catalogue for each browser.',
+    stack: ['React', 'Zustand', 'PostgreSQL', 'Netlify Functions'],
+    brief: 'Deploy the original product CRUD interface with durable storage and a safe workspace for visitors to try.',
+    decisions: [
+      'Kept the existing React interface and API response shape while adding a managed PostgreSQL deployment adapter.',
+      'Scoped every product query to a cookie-based workspace, so visitors can edit samples without changing each other’s catalogues.',
+      'Validated prices and image URLs on the server. Product versions reject stale edits; the original Express/Mongoose backend remains available in source.',
+    ],
+    demo: 'https://ajith-shopsphere.netlify.app/',
+    source: 'https://github.com/ajithreddy1234/ShopSphere',
   },
   {
     id: 'pipeline',
@@ -86,7 +101,8 @@ export const experience = [
 ];
 
 export const deployedApps = [
-  { id: 'atelier', title: 'Atelier Edit', category: 'Commerce', label: 'Discover, compare & shop the collection', href: './atelier.html', icon: './atelier-mark.svg', access: 'Demo checkout' },
+  { id: 'atelier', title: 'Atelier Edit', category: 'Commerce', label: 'Discover, compare & shop the collection', href: 'https://ajith-atelier-edit.netlify.app/', icon: './atelier-mark.svg', access: 'Demo checkout' },
+  { id: 'shopsphere', title: 'ShopSphere', category: 'Product workspace', label: 'Create, edit & manage your own catalogue', href: 'https://ajith-shopsphere.netlify.app/', icon: './shopsphere-mark.svg', access: 'Private demo workspace' },
   { id: 'pipeline', title: 'FlowForge', category: 'Data workflows', label: 'Build a pipeline. Run a real job.', href: 'https://ajith-flowforge-scheduler.onrender.com/', icon: './flowforge-mark.svg', access: 'Public sandbox' },
   { id: 'invoice', title: 'Invoice Review', category: 'Zamp assignment', label: 'Evidence-led invoice decisions', href: 'https://asa-invoice-review.onrender.com/', icon: './invoice-mark.svg', access: 'Workspace login' },
   { id: 'promo', title: 'Kuku Promo Finder', category: 'Content tools', label: 'Screenplays to promo cut sheets', href: 'https://kuku-promo-finder.onrender.com/', icon: './promo-mark.svg', access: 'Open application' },

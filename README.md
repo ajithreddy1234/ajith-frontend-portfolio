@@ -1,24 +1,22 @@
 # Ajith Reddy — Frontend portfolio
 
-[Portfolio](https://ajith-reddy-frontend.netlify.app/) · [Atelier Edit](https://ajith-reddy-frontend.netlify.app/atelier.html) · [Job Scheduler](https://ajith-flowforge-scheduler.onrender.com/)
+[Portfolio](https://ajith-reddy-frontend.netlify.app/) · [Atelier Edit](https://ajith-atelier-edit.netlify.app/) · [Job Scheduler](https://ajith-flowforge-scheduler.onrender.com/)
 
-A deployable React portfolio with a project directory, résumé, source-grounded Gemini assistant, and a standalone full-stack jewellery storefront. Every public repository is listed with context; only verified live applications appear in the deployment section. Country Delight's Model Trainer is presented as an internal-tool case study.
+A deployable React portfolio with a project directory, résumé, source-grounded Gemini assistant, and links to independently deployed full-stack applications. Every public repository is listed with context; only verified live applications appear in the deployment section. Country Delight's Model Trainer is presented as an internal-tool case study.
 
 ## Portfolio navigation
 
-The opening page pairs the personal information card with a stacked deck of four live project cards. Exposed card edges remain visible; hover, wheel scrolling, arrow keys, and the previous/next buttons fan a card forward. Clicking the revealed card opens the project. On touch, tap an edge to preview, then tap the active card to open; horizontal swipes also browse the deck. The About section and About navigation are removed. Detailed case studies and the searchable 26-repository directory live on `projects.html`, reached through the Projects navigation or the main call to action. The profile assistant is available on both pages.
+The opening page pairs the personal information card with a stacked deck of five live project cards. Exposed card edges remain visible; hover, wheel scrolling, arrow keys, and the previous/next buttons fan a card forward. Clicking the revealed card opens the project. On touch, tap an edge to preview, then tap the active card to open; horizontal swipes also browse the deck. The About section and About navigation are removed. Detailed case studies and the searchable 26-repository directory live on `projects.html`, reached through the Projects navigation or the main call to action. The profile assistant is available on both pages.
 
 ## Atelier Edit
 
-React and Redux Toolkit handle combined search, filters, sorting, product comparison, saved pieces, and a variant-aware bag. Netlify Functions serve the catalogue and checkout API. PostgreSQL stores inventory and orders.
+Atelier is now an independent full-stack application at https://ajith-atelier-edit.netlify.app/. Its independently installable source is in [`apps/atelier-edit`](apps/atelier-edit), with its own package, API, database migrations, tests, and deployment configuration. Accounts, bags, favourites, catalogue inventory, orders, and order events are stored in its own PostgreSQL database. It has direct product pages, versioned cart saves, guest-to-account merges, server-priced idempotent checkout, order history, and cancellation with exactly-once stock restoration.
 
-- Server-owned catalogue prices and delivery fees; client-supplied totals are ignored.
-- Atomic inventory reservation and order creation on one database connection.
-- Browser-specific HttpOnly session cookie and scoped order history.
-- Idempotency references for retries, with a conflict if an existing reference is reused with different items.
-- Accessible dialogs, loading/retry/empty states, stock checks, receipts, and order history.
+The former `/atelier.html` URL redirects to the independent application. Historical co-hosted source and immutable database migrations remain for compatibility. The root build still serves the portfolio and profile assistant. Atelier's own README contains its run/test/deploy instructions and demo limitations.
 
-This is a fictional catalogue and a **demo checkout**. It records orders without collecting payment, addresses, or shipping personal information. Product photography was generated for this fictional collection with ImageGen.
+## ShopSphere
+
+[Live product workspace](https://ajith-shopsphere.netlify.app/) · [Source](https://github.com/ajithreddy1234/ShopSphere). The original React interface now deploys with a PostgreSQL API adapter. Browser-isolated workspaces provide persistent product CRUD, server validation, and optimistic edit versions. The Express/Mongoose backend remains in source for historical/local use.
 
 ## Profile assistant
 
