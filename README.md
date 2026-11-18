@@ -20,7 +20,7 @@ The former `/atelier.html` URL redirects to the independent application. Histori
 
 ## Profile assistant
 
-The persistent side launcher opens a conversation drawer. `/api/profile-assistant` calls Gemini through Netlify AI Gateway, keeping provider access on the server. The prompt handles greetings and harmless general questions naturally. Claims about Ajith require evidence from the public résumé or his public GitHub profile/repository snapshot. It does not use external search or private repositories. Source lookup remains available during provider failures. Input size, fixed source links, origin checks, and rate limits bound the endpoint.
+The persistent side launcher opens a conversation drawer. `/api/profile-assistant` calls Gemini through Netlify AI Gateway, keeping provider access on the server. The prompt allows natural greetings, thanks, brief pleasantries, and questions about the assistant’s capabilities. Substantive answers are limited to Ajith and projects supported by his résumé or public GitHub. Unrelated requests, including general programming explanations, are redirected without answering their topic. A greeting or previous off-topic question cannot bypass that boundary. Profile claims require approved citations. Offline source lookup requires a profile or named-project anchor instead of matching technology keywords alone. It does not use external search or private repositories. Input size, fixed source links, origin checks, and rate limits bound the endpoint.
 
 ## Other work
 

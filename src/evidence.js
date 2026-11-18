@@ -1,5 +1,7 @@
 import resume from './resume-evidence.js';
 import github from './github-evidence.js';
+import { repositoryProjects } from './project-directory.js';
+import { deployedApps, projects } from './profile.js';
 
 export const sourceLinks = {
   resume: { label: 'Résumé', href: './Ajith_Reddy_Frontend_Resume.pdf' },
@@ -18,10 +20,25 @@ export const unknownAnswer = {
   links: [],
 };
 
+export const scopeAnswer = {
+  text: 'I can help with Ajith’s résumé, public GitHub, projects, skills, education, and experience. What would you like to know about his work?',
+  links: [],
+};
+
+// Offline lookup requires a profile/project anchor, not just a technology keyword.
+// Gemini handles intent and natural social replies when the service is available.
+function profileLookup(question) {
+  if (/\b(ajith|his|him|resume|cv|github|portfolio|projects|skills|education|internship|experience)\b/i.test(question)) return true;
+  const normalized = question.toLowerCase();
+  return [...repositoryProjects, ...projects, ...deployedApps].some(({ name, title }) => [name, title].some((label) =>
+    label?.length >= 4 && normalized.includes(label.toLowerCase()))) || normalized.includes('country delight');
+}
+
 export function fallbackAnswer(question, previousQuestion = '') {
   const normalized = question.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
   const context = /^(tell me more|more details|what about that|how does it|what else)\b/.test(normalized)
     ? previousQuestion + ' ' + question : question;
+  if (!profileLookup(context)) return scopeAnswer;
   if (/\b(salary|phone|religion|caste|password|roll number|salary|age)\b/.test(normalized)) return unknownAnswer;
   if (/\b(resume|cv|contact|email)\b/.test(normalized)) {
     return { text: 'Ajith’s résumé includes his contact details, projects, skills, and education.', links: [sourceLinks.resume] };
